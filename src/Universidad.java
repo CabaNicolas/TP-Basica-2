@@ -1,4 +1,6 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Universidad {
 
@@ -6,6 +8,7 @@ public class Universidad {
 	private static Integer aumentarId = 0;
 	private Integer id;
 	private ArrayList<Alumno> alumnos;
+	private ArrayList<Profesor> profesores;
 	private CicloLectivo cicloLectivo;
 	private ArrayList<Materia> materias;
 	private ArrayList<Aula> aulas;
@@ -17,6 +20,7 @@ public class Universidad {
 		this.materias = new ArrayList<Materia>();
 		this.comisiones = new ArrayList<Comision>();
 		this.alumnos = new ArrayList<Alumno>();
+		this.profesores = new ArrayList<Profesor>();
 	}
 	
 	public Boolean agregarMateria(Materia materia) {
@@ -89,6 +93,16 @@ public class Universidad {
 		return alumnoEncontrado;
 	}
 	
+	public Profesor buscarProfesor(Integer dni) {
+		Profesor profesorEncontrado = null;
+		for(int i = 0; i < this.profesores.size(); i++) {
+			if(this.profesores.get(i).getDni().equals(dni)) {
+				profesorEncontrado = this.profesores.get(i);
+		}
+		}
+		return profesorEncontrado;
+	}
+	
 	public Comision buscarComision(Integer id) {
 		Comision comisionEncontrada = null;
 		for(int i = 0; i < this.comisiones.size(); i++) {
@@ -99,21 +113,99 @@ public class Universidad {
 		return comisionEncontrada;
 	}
 	
-	public Boolean inscribirAlumnoAComision(Integer dni, Integer id2) {
+	public Boolean verificarSiYaAprobo(Alumno alumno, Comision comision) {
+		Boolean yaLaAprobo = false;
+		ArrayList<Materia> materiasAprobadas = alumno.getMateriasAprobadas(); 
+		
+		for (int i = 0; i < materiasAprobadas.size(); i++) {
+			if(materiasAprobadas.get(i).equals(comision.getMateria())) {
+				yaLaAprobo = true;
+			}
+		}
+		return yaLaAprobo;
+	}
+ 	public Boolean verificarDuplicidad(Alumno alumno, Comision comision) {
+		Boolean estaDuplicado = false;
+		ArrayList<Comision> comisionesAlumno = alumno.getComisiones();
+		
+		for (int i = 0; i < comisionesAlumno.size(); i++) {
+			Dia diaAlumno = comisionesAlumno.get(i).getDia();
+			Turno turnoAlumno = comisionesAlumno.get(i).getTurno();
+			if(comision.getDia().equals(diaAlumno) && comision.getTurno().equals(turnoAlumno)) {
+				estaDuplicado = true;
+			}
+		}
+		
+		return estaDuplicado;
+	}
+	
+ 	public Boolean verificarCapacidad(Comision comision) {
+		Boolean hayCupo = false;
+		Integer capacidadAula = comision.getAula().getCapacidad();
+		Integer cantidadAlumnos = comision.getAlumnos().size();
+		if(cantidadAlumnos < capacidadAula) {
+			hayCupo = true;
+		}
+		
+		return hayCupo;
+	}
+	
+	public Boolean verificarCorrelativa(Comision comision, Alumno alumno) {
+		Boolean correlativasAprobadadas = false;
+		
+		Materia comisionMateria = comision.getMateria(); //pb2
+		Integer contadorDeMateriasCorrelativasAprobadas = 0;
+		ArrayList<Materia> materiasCorrelativas = comisionMateria.getMateriasCorrelativas();
+		ArrayList<Materia> materiasAprobadas = alumno.getMateriasAprobadas();
+		
+		for (int i = 0; i < materiasAprobadas.size(); i++) {
+			for (int j = 0; j < materiasCorrelativas.size() - 1; j++) {
+				if(materiasAprobadas.get(i).equals(materiasCorrelativas.get(j))) {
+					contadorDeMateriasCorrelativasAprobadas++;
+				}
+			}
+		}
+		if(contadorDeMateriasCorrelativasAprobadas == materiasCorrelativas.size()) {
+			correlativasAprobadadas = true;
+		}
+		return correlativasAprobadadas;
+	}
+	
+	public Boolean verificarFecha(LocalDate fechaActual) {
+		Boolean fechaRango = false;
+		if(fechaActual.isAfter(this.cicloLectivo.getFechaInicioInscripcion())&& fechaActual.isBefore(this.cicloLectivo.getFechaFinalizacionInscripcion())) {
+			fechaRango = true;
+		}
+		return fechaRango;
+	}
+	
+	public Boolean inscribirAlumnoAComision(Integer dni, Integer id2, LocalDate fechaActual) {
 		Alumno alumnoAInscribir = buscarAlumno(dni);
 		Comision comisionElegida = buscarComision(id2);
 		Boolean estadoInscripcion = false;
-		
-		if(alumnoAInscribir!=null && comisionElegida!=null) {
+		if(alumnoAInscribir!=null && comisionElegida!=null && verificarFecha(fechaActual) && verificarCorrelativa(comisionElegida,alumnoAInscribir) && verificarCapacidad(comisionElegida) && !verificarDuplicidad(alumnoAInscribir, comisionElegida) && !verificarSiYaAprobo(alumnoAInscribir, comisionElegida)) {
 			estadoInscripcion = comisionElegida.asignarAlumno(alumnoAInscribir);
+			alumnoAInscribir.getMaterias().add(comisionElegida.getMateria());
+			alumnoAInscribir.getComisiones().add(comisionElegida);
 		}
 		return estadoInscripcion;
 	}
 	
-	
-	//Anotar alumno a la uni
-	//Anotar alumno a materia (y correlativas)
-	//metodos de aula
+	public Boolean inscribirProfesorAComision(Integer dni, Integer id2) {
+		Comision comisionElegida = buscarComision(id2);
+		Profesor profesorAInscribir = buscarProfesor(dni);
+		Boolean asignacionProfesor = false;
+
+		Integer cantidadAlumnos = comisionElegida.getAlumnos().size();
+		Integer limiteProfesores = cantidadAlumnos / 20;
+		
+		if (cantidadAlumnos > 1 && comisionElegida.getProfesores().size() == limiteProfesores) {
+			comisionElegida.getProfesores().add(profesorAInscribir);	
+			asignacionProfesor = true;
+			}
+		
+		return asignacionProfesor;
+	}
 	
 	public String getNombre() {
 		return nombre;

@@ -89,11 +89,12 @@ public class TestUniversidad {
 		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 7, 30);
 		Turno turno = Turno.MAÑANA;
 		Dia dia = Dia.MIERCOLES;
+		Aula aula = new Aula(2);
 		
 		Materia pb1 = new Materia(2626,"Programacion Basica 1");
 		CicloLectivo nuevoCiclo = new CicloLectivo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion, fechaFinalizacionInscripcion);
 		
-		Comision nuevaComision = new Comision(pb1, nuevoCiclo, dia, turno);
+		Comision nuevaComision = new Comision(pb1, nuevoCiclo, dia, turno, aula);
 		
 		Boolean resultado = unlam.agregarComision(nuevaComision);
 		
@@ -121,24 +122,36 @@ public class TestUniversidad {
 		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(2023, 12, 4);
 		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 7, 20);
 		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 7, 30);
+		LocalDate fechaActual = LocalDate.of(2023, 7, 26);
+		
 		Turno turno = Turno.MAÑANA;
 		Dia dia = Dia.MIERCOLES;
 		Integer dni = 40767127;
 		String nombre = "Nicolas";
 		String apellido = "Caba";
 		LocalDate fechaInscripcion = LocalDate.of(2023, 7, 20);
+		Aula aula = new Aula(2);
 		
 		Universidad unlam = new Universidad("UNLAM");
 		Materia pb1 = new Materia(2626,"Programacion Basica 1");
 		CicloLectivo nuevoCiclo = new CicloLectivo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion, fechaFinalizacionInscripcion);
-		Comision nuevaComision = new Comision(pb1, nuevoCiclo, dia, turno);
+		Comision nuevaComision = new Comision(pb1, nuevoCiclo, dia, turno, aula);
 		Alumno nicolas = new Alumno(dni,nombre,apellido,fechaInscripcion);
 		
+		dni = 45478554;
+		nombre = "Joaquin";
+		apellido = "Paiva";
+		Alumno joaquin = new Alumno(dni,nombre,apellido,fechaInscripcion);
+		
+		unlam.setCicloLectivo(nuevoCiclo);
 		unlam.agregarComision(nuevaComision);
 		unlam.agregarAlumno(nicolas);
+		unlam.agregarAlumno(joaquin);
 		
-		Boolean resultado = unlam.inscribirAlumnoAComision(nicolas.getDni(), nuevaComision.getId());
-		assertTrue(resultado);
+		Boolean resultado = unlam.inscribirAlumnoAComision(nicolas.getDni(), nuevaComision.getId(), fechaActual);
+		Boolean resultado2 = unlam.inscribirAlumnoAComision(nicolas.getDni(), nuevaComision.getId(), fechaActual);
+
+		assertTrue(resultado && resultado2);
 	}
 	
 }

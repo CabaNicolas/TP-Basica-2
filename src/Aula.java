@@ -11,4 +11,34 @@ public class Aula {
 		this.id = Aula.aumentarId++;
 	}
 
+
+	public static Integer getAumentarId() {
+		return aumentarId;
+	}
+
+
+	public static void setAumentarId(Integer aumentarId) {
+		Aula.aumentarId = aumentarId;
+	}
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public Integer getCapacidad() {
+		return capacidad;
+	}
+
+
+	public void setCapacidad(Integer capacidad) {
+		this.capacidad = capacidad;
+	}
+
 }

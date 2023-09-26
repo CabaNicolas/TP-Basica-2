@@ -10,16 +10,35 @@ public class Comision {
 	private Turno turno;
 	private Aula aula;
 	private ArrayList<Alumno> alumnos;
+	private ArrayList<Profesor> profesores;
 
-	public Comision(Materia materia, CicloLectivo nuevoCiclo, Dia dia, Turno turno) {
+	public Comision(Materia materia, CicloLectivo nuevoCiclo, Dia dia, Turno turno, Aula aula) {
 		this.materia = materia;
 		this.cicloLectivo = nuevoCiclo;
 		this.dia = dia;
 		this.turno = turno;
+		this.aula = aula;
 		this.id = Comision.aumentarId++;
 		this.alumnos = new ArrayList<Alumno>();
+		this.profesores = new ArrayList<Profesor>();
 	}
 	
+	public ArrayList<Alumno> getAlumnos() {
+		return alumnos;
+	}
+
+	public void setAlumnos(ArrayList<Alumno> alumnos) {
+		this.alumnos = alumnos;
+	}
+
+	public ArrayList<Profesor> getProfesores() {
+		return profesores;
+	}
+
+	public void setProfesores(ArrayList<Profesor> profesores) {
+		this.profesores = profesores;
+	}
+
 	public void asginarAula(Aula aula) {
 		this.aula = aula;
 	}

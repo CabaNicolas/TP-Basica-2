@@ -38,7 +38,7 @@ public class Materia {
 		return materiaAgregada;
 	}
 
-	public Integer analizarEstadoDeCorrelativas() {
+	public Integer analizarEstadoDeCorrelativas() { // analizarEstadoDeCorrelativas == materiasCorrelativas.size()
 		Integer contadorDeMateriasCorrelativasAprobadas = 0;
 		for (int i = 0; i < this.materiasCorrelativas.size(); i++) {
 			if (materiasCorrelativas.get(i).getNota().chequearSiAprobo()
@@ -49,6 +49,7 @@ public class Materia {
 
 		return contadorDeMateriasCorrelativasAprobadas;
 	}
+	
 
 	public Boolean eliminarMateriaCorrelativa(Materia correlativa) {
 		Boolean materiaEliminada = false;

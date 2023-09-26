@@ -11,6 +11,8 @@ public class Alumno {
 	private String apellido;
 	private LocalDate fechaIngreso;
 	private ArrayList<Materia> materias;
+	private ArrayList<Materia> materiasAprobadas;
+	private ArrayList<Comision> comisiones;
 	
 	public Alumno(Integer dni, String nombre, String apellido, LocalDate fechaIngreso) {
 		this.id = Alumno.aumentarId++;
@@ -19,11 +21,22 @@ public class Alumno {
 		this.apellido = apellido;
 		this.fechaIngreso = fechaIngreso;
 		this.materias = new ArrayList<Materia>();
+		this.materiasAprobadas = new ArrayList<Materia>();
+		this.comisiones = new ArrayList<Comision>();
 	}
 	
+	public ArrayList<Comision> getComisiones() {
+		return comisiones;
+	}
+
+	public void setComisiones(ArrayList<Comision> comisiones) {
+		this.comisiones = comisiones;
+	}
+
 	public void setFechaIngreso(LocalDate fechaIngreso) {
 		this.fechaIngreso = fechaIngreso;
 	}
+	
 
 	public static Integer getAumentarId() {
 		return aumentarId;
@@ -71,6 +84,14 @@ public class Alumno {
 
 	public void setDni(Integer dni) {
 		this.dni = dni;
+	}
+
+	public ArrayList<Materia> getMateriasAprobadas() {
+		return materiasAprobadas;
+	}
+
+	public void setMateriasAprobadas(ArrayList<Materia> materiasAprobadas) {
+		this.materiasAprobadas = materiasAprobadas;
 	}
 
 	public void setMaterias(ArrayList<Materia> materias) {

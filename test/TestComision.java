@@ -14,11 +14,12 @@ public class TestComision {
 		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 7, 30);
 		Turno turno = Turno.MAÑANA;
 		Dia dia = Dia.MIERCOLES;
+		Aula aula = new Aula(2);
 		
 		Materia pb1 = new Materia(2626,"Programacion Basica 1");
 		CicloLectivo nuevoCiclo = new CicloLectivo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion, fechaFinalizacionInscripcion);
 		
-		Comision nuevaComision = new Comision(pb1, nuevoCiclo, dia, turno);
+		Comision nuevaComision = new Comision(pb1, nuevoCiclo, dia, turno, aula);
 		
 		assertNotNull(nuevaComision);
 	}
