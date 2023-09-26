@@ -138,7 +138,7 @@ public class TestUniversidad {
 		unlam.agregarAlumno(nicolas);
 		
 		Boolean resultado = unlam.inscribirAlumnoAComision(nicolas.getDni(), nuevaComision.getId());
-		
+		assertTrue(resultado);
 	}
 	
 }

@@ -79,9 +79,35 @@ public class Universidad {
 		return resultado;
 	}
 	
+	public Alumno buscarAlumno(Integer dni) {
+		Alumno alumnoEncontrado = null;
+		for(int i = 0; i < this.alumnos.size(); i++) {
+			if(this.alumnos.get(i).getDni().equals(dni)) {
+				alumnoEncontrado = this.alumnos.get(i);
+		}
+		}
+		return alumnoEncontrado;
+	}
+	
+	public Comision buscarComision(Integer id) {
+		Comision comisionEncontrada = null;
+		for(int i = 0; i < this.comisiones.size(); i++) {
+			if(this.comisiones.get(i).getId().equals(id)) {
+				comisionEncontrada = this.comisiones.get(i);
+		}
+		}
+		return comisionEncontrada;
+	}
+	
 	public Boolean inscribirAlumnoAComision(Integer dni, Integer id2) {
+		Alumno alumnoAInscribir = buscarAlumno(dni);
+		Comision comisionElegida = buscarComision(id2);
+		Boolean estadoInscripcion = false;
 		
-		return null;
+		if(alumnoAInscribir!=null && comisionElegida!=null) {
+			estadoInscripcion = comisionElegida.asignarAlumno(alumnoAInscribir);
+		}
+		return estadoInscripcion;
 	}
 	
 	

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Comision {
 	
@@ -8,6 +9,7 @@ public class Comision {
 	private Dia dia;
 	private Turno turno;
 	private Aula aula;
+	private ArrayList<Alumno> alumnos;
 
 	public Comision(Materia materia, CicloLectivo nuevoCiclo, Dia dia, Turno turno) {
 		this.materia = materia;
@@ -15,10 +17,19 @@ public class Comision {
 		this.dia = dia;
 		this.turno = turno;
 		this.id = Comision.aumentarId++;
+		this.alumnos = new ArrayList<Alumno>();
 	}
 	
 	public void asginarAula(Aula aula) {
 		this.aula = aula;
+	}
+	
+	public Boolean asignarAlumno(Alumno alumno) {
+		Boolean resultado = false;
+		if(!this.alumnos.contains(alumno)) {
+			resultado = this.alumnos.add(alumno);
+		}
+		return resultado;
 	}
 
 	public static Integer getAumentarId() {
