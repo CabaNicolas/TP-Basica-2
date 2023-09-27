@@ -18,16 +18,29 @@ public class Materia {
 		this.nota = new Nota();
 	}
 
-	public void asignarNotaPrimerParcial(Integer nota) {
-		if (this.analizarEstadoDeCorrelativas() == this.materiasCorrelativas.size()) {
-			this.nota.asignarNotaPrimerParcial(nota);
+	public Boolean asignarNotaPrimerParcial(Integer nota) {
+		Boolean resultado = false;
+		if (nota >= 7) {
+			if (this.analizarEstadoDeCorrelativas() == this.materiasCorrelativas.size()) {
+				resultado =  this.nota.asignarNotaPrimerParcial(nota);
+			}
+		}else {
+			resultado = this.nota.asignarNotaPrimerParcial(nota);
 		}
+		
+		return resultado;
 	}
 
-	public void asignarNotaSegundoParcial(Integer nota) {
-		if (this.analizarEstadoDeCorrelativas() == this.materiasCorrelativas.size()) {
-			this.nota.asignarNotaSegundoParcial(nota);
+	public Boolean asignarNotaSegundoParcial(Integer nota) {
+		Boolean resultado = false;
+		if (nota >= 7) {
+			if (this.analizarEstadoDeCorrelativas() == this.materiasCorrelativas.size()) {
+				resultado = this.nota.asignarNotaSegundoParcial(nota);
+			}
+		}else {
+			resultado =  this.nota.asignarNotaSegundoParcial(nota);
 		}
+		return resultado;
 	}
 
 	public Boolean agregarMateriaCorrelativa(Materia correlativa) {
@@ -49,7 +62,6 @@ public class Materia {
 
 		return contadorDeMateriasCorrelativasAprobadas;
 	}
-	
 
 	public Boolean eliminarMateriaCorrelativa(Materia correlativa) {
 		Boolean materiaEliminada = false;

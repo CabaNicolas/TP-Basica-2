@@ -50,7 +50,9 @@ public class TestMateria {
 		Integer primerParcial = 4;
 		
 		Materia pb2 = new Materia(codigoMateria, nombre);
-		pb2.asignarNotaPrimerParcial(primerParcial);
+		Nota nota = new Nota();
+		nota.asignarNotaPrimerParcial(primerParcial);
+		pb2.setNota(nota);
 		Integer vo = pb2.getNota().getPrimerParcial();
 		
 		assertEquals(primerParcial, vo);

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Comision {
 	
@@ -21,6 +22,18 @@ public class Comision {
 		this.id = Comision.aumentarId++;
 		this.alumnos = new ArrayList<Alumno>();
 		this.profesores = new ArrayList<Profesor>();
+	}
+	
+	public Alumno encontrarAlumno(Integer dni) {
+		Alumno alumno = null;
+		
+		for (int i = 0; i < this.alumnos.size(); i++) {
+			if(this.alumnos.get(i).getDni().equals(dni)) {
+				alumno = this.alumnos.get(i);
+			}
+		}
+		
+		return alumno;
 	}
 	
 	public ArrayList<Alumno> getAlumnos() {
